@@ -1,0 +1,60 @@
+<mat-toolbar color="primary">
+    <span class="fill-remaining-space">Activity Registration</span>
+</mat-toolbar>
+<div class="container" *ngIf="!post; else forminfo" novalidate>
+
+    <form class="signup-form" [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
+        <mat-form-field class="signup-full-width">
+            <mat-label>First name</mat-label>
+            <input [formControl]="firstname" placeholder="firstname" matInput required [(ngModel)]="formData.FirstName">
+            <mat-error *ngIf="!firstname.valid && firstname.touched">
+                {{ titleAlert }}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="signup-full-width">
+            <mat-label>Last name</mat-label>
+            <input [formControl]="lastname" matInput required [(ngModel)]="formData.LastName">
+            <mat-error *ngIf="!formGroup.controls['lastname'].valid && formGroup.controls['lastname'].touched">
+                {{ titleAlert }}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="signup-full-width">
+            <mat-label>Email</mat-label>
+            <input [formControl]="email" matInput placeholder="Ex. eswar@ocas.com" [(ngModel)]="formData.EmailAddress">
+            <mat-error *ngIf="!formGroup.controls['email'].valid && formGroup.controls['email'].touched">
+                {{ getErrorEmail()}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="signup-full-width">
+            <mat-label>Activity</mat-label>
+            <mat-select [formControl]="activity" #fontSize value="16px" [(ngModel)]="formData.Activity">
+                <mat-option value="Seminor">Seminor</mat-option>
+                <mat-option value="Swim in a lake">Swim in a lake</mat-option>
+                <mat-option value="Rent a bike">Rent a bike</mat-option>
+                <mat-option value="Go fishing">Go fishing</mat-option>
+                <mat-option value="Go camping">Go camping</mat-option>
+                <mat-option value="Play tennis">Play tennis</mat-option>
+            </mat-select>
+            <mat-error *ngIf="!formGroup.controls['activity'].valid && formGroup.controls['activity'].touched">
+                {{ titleAlert }}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="signup-full-width" [style.fontSize]="fontSize.value">
+            <mat-label>Comments</mat-label>
+            <textarea matInput [formControl]="comments" [(ngModel)]="formData.Comments"
+                      cdkTextareaAutosize
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="2"
+                      cdkAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formGroup.valid">Submit Form</button>
+    </form>
+</div>
+
+<ng-template #forminfo>
+    <div class="container">
+        You registered to an event {{formData.Activity}} successfully.
+    </div>
+</ng-template>
